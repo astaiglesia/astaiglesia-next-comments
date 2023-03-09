@@ -18,3 +18,6 @@ A comment box boilerplate
 - iterate layout and component structure for comment feed and items
 - iterate styling throughout
 - migrate urbanbrew
+
+## deployment on vercel
+https://astaiglesia-next-comments-dr2ao81cs-astaiglesia.vercel.app/
