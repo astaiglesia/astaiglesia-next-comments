@@ -1,7 +1,20 @@
-# Fullstack Authentication Example with Next.js and NextAuth.js
+# CommentBox Component with User Log In 
+Next.js | Prisma | NextAuth.js (github) | PostGres | Supabase 
 
-This is the starter project for the fullstack tutorial with Next.js and Prisma. You can find the final version of this project in the [`final`](https://github.com/prisma/blogr-nextjs-prisma/tree/final) branch of this repo.
+A comment box boilerplate 
+- built in Next with React
+- served by a supabase hosted postgres database 
+- interfaces with a Prisma client instance
 
-
-## base-guide
+## base-project
 - https://vercel.com/guides/nextjs-prisma-postgres
+
+## next features
+- implement sass modules
+- configure dev environment
+- add testing framework
+- upgrade user model for urbanbrew
+- iterate on header for urbanbrew
+- iterate layout and component structure for comment feed and items
+- iterate styling throughout
+- migrate urbanbrew

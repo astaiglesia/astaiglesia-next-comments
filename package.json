@@ -1,7 +1,7 @@
 {
-  "name": "hello-next",
+  "name": "next-comments",
   "version": "1.0.0",
-  "description": "",
+  "description": "commentbox with userbase and github auth",
   "scripts": {
     "dev": "next",
     "build": "next build",
