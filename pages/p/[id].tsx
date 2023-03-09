@@ -1,7 +1,10 @@
 import React from "react"
-import prisma from "../../lib/prisma"
-import { GetServerSideProps } from "next"
 import ReactMarkdown from "react-markdown"
+import { GetServerSideProps } from "next"
+import Router from 'next/router'
+import { useSession } from 'next-auth/react'
+import prisma from "../../lib/prisma"
+
 import Layout from "../../components/Layout"
 import { PostProps } from "../../components/Post"
 
@@ -12,32 +15,48 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     },
     include: {
       author: {
-        select: { name: true },
+        select: { name: true, email: true },
       },
     },
   });
-  
+
   return {
     props: post,
   }
 }
 
+async function publishPost(id: string): Promise<void> {
+  await fetch(`/api/publish/${id}`, {
+    method: 'PUT',
+  });
+  await Router.push('/')
+}
+
 const Post: React.FC<PostProps> = (props) => {
-  let title = props.title
+  const { data: session, status } = useSession();
+  if (status === 'loading') {
+    return <div>Authenticating ...</div>;
+  }
+  const userHasValidSession = Boolean(session);
+  const postBelongsToUser = session?.user?.email === props.author?.email;
+  let title = props.title;
   if (!props.published) {
-    title = `${title} (Draft)`
+    title = `${title} (Draft)`;
   }
 
   return (
     <Layout>
       <div>
         <h2>{title}</h2>
-        <p>By {props?.author?.name || "Unknown author"}</p>
+        <p>By {props?.author?.name || 'Unknown author'}</p>
         <ReactMarkdown children={props.content} />
+        {!props.published && userHasValidSession && postBelongsToUser && (
+          <button onClick={() => publishPost(props.id)}>Publish</button>
+        )}
       </div>
       <style jsx>{`
         .page {
-          background: white;
+          background: var(--geist-background);
           padding: 2rem;
         }
 
@@ -57,7 +76,9 @@ const Post: React.FC<PostProps> = (props) => {
         }
       `}</style>
     </Layout>
-  )
-}
+  );
+};
+
+
 
 export default Post
